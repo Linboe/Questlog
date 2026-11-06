@@ -213,6 +213,17 @@ select {
   border-color: var(--color-danger-hover);
 }
 
+.button--secondary {
+  color: var(--color-text);
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.button--secondary:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
 /* ==========================================================================
    5. Forms
    ========================================================================== */
@@ -228,6 +239,11 @@ select {
   gap: 0.35rem;
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.form__actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
 .handle-form {
@@ -458,6 +474,12 @@ select {
   gap: 1rem;
   max-width: 320px;
   margin-bottom: 1.5rem;
+}
+
+.game-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 /* ==========================================================================
