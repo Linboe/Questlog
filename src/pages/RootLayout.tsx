@@ -15,19 +15,23 @@ export default function RootLayout() {
 
     return (
         <>
-            <header>
-                <h1>Questlog</h1>
-                <nav>
-                    <NavLink to="/" end>
-                        Games
-                    </NavLink>
-                    <NavLink to="/games/new">New game</NavLink>
-                </nav>
-                <HandleForm handle={handle} onChange={switchHandle} />
+            <header className="site-header">
+                <div className="site-header__inner">
+                    <h1 className="site-header__title">Questlog</h1>
+                    <nav className="site-nav">
+                        <NavLink to="/" end className="site-nav__link">
+                            Games
+                        </NavLink>
+                        <NavLink to="/games/new" className="site-nav__link">
+                            New game
+                        </NavLink>
+                    </nav>
+                    <HandleForm handle={handle} onChange={switchHandle} />
+                </div>
             </header>
-            <main>
-                <Outlet key={handle} />{' '}
-                {/* remounts the page, so it fetches again */}
+            <main className="site-main">
+                {/* key remounts the page when the handle changes, so it fetches again */}
+                <Outlet key={handle} />
             </main>
         </>
     );

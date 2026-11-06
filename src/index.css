@@ -1,0 +1,472 @@
+/* ==========================================================================
+   1. Design tokens
+   ========================================================================== */
+:root {
+  color-scheme: light;
+
+  /* Colors */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-text: #1b1f27;
+  --color-text-muted: #5f6b7a;
+  --color-border: #dfe3e8;
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-contrast: #ffffff;
+  --color-danger: #c62828;
+  --color-danger-hover: #a01f1f;
+  --color-error-bg: #fdeaea;
+  --color-error-text: #8f1d1d;
+  --color-error-border: #f5c2c2;
+
+  /* Status colors */
+  --status-want-bg: #e0ecff;
+  --status-want-text: #1d4ed8;
+  --status-playing-bg: #dcf5e4;
+  --status-playing-text: #1a7f3c;
+  --status-completed-bg: #ece5ff;
+  --status-completed-text: #5b3bc4;
+  --status-dropped-bg: #fdebd0;
+  --status-dropped-text: #9a5b00;
+
+  /* Shape and spacing */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --shadow-card: 0 6px 18px rgba(27, 31, 39, 0.1);
+  --content-width: 1100px;
+  --gutter: 1.5rem;
+
+  /* Typography */
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   2. Base
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+input,
+select {
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   3. Layout
+   ========================================================================== */
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 1rem var(--gutter);
+}
+
+.site-header__title {
+  font-size: 1.5rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 0.25rem;
+  margin-right: auto;
+}
+
+.site-nav__link {
+  padding: 0.4rem 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.site-nav__link:hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.site-nav__link[aria-current="page"] {
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+}
+
+.site-main {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2rem var(--gutter) 4rem;
+}
+
+.page-title {
+  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   4. Buttons
+   ========================================================================== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  color: var(--color-accent-contrast);
+  cursor: pointer;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+}
+
+.button:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button--danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.button--danger:hover {
+  background: var(--color-danger-hover);
+  border-color: var(--color-danger-hover);
+}
+
+/* ==========================================================================
+   5. Forms
+   ========================================================================== */
+.form {
+  display: grid;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.handle-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.handle-form__field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.handle-form__field input {
+  width: 10rem;
+}
+
+.handle-form .message {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ==========================================================================
+   6. Messages (loading and error)
+   ========================================================================== */
+.message {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+}
+
+.message--loading {
+  padding-left: 0;
+  color: var(--color-text-muted);
+}
+
+.message--error {
+  color: var(--color-error-text);
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+}
+
+.empty-state {
+  padding: 2rem 0;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   7. Status filter
+   ========================================================================== */
+.status-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.status-filter__button {
+  padding: 0.4rem 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.status-filter__button:hover {
+  border-color: var(--color-accent);
+}
+
+.status-filter__button[aria-pressed="true"] {
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ==========================================================================
+   8. Status badge
+   ========================================================================== */
+.status-badge {
+  width: fit-content;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+}
+
+.status-badge--want {
+  color: var(--status-want-text);
+  background: var(--status-want-bg);
+}
+
+.status-badge--playing {
+  color: var(--status-playing-text);
+  background: var(--status-playing-bg);
+}
+
+.status-badge--completed {
+  color: var(--status-completed-text);
+  background: var(--status-completed-bg);
+}
+
+.status-badge--dropped {
+  color: var(--status-dropped-text);
+  background: var(--status-dropped-bg);
+}
+
+/* ==========================================================================
+   9. Game grid and game card
+   ========================================================================== */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-card {
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.game-card:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-2px);
+}
+
+.game-card__link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.game-card__cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--color-border);
+}
+
+.game-card__cover--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.game-card__body {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.game-card__title {
+  font-size: 1rem;
+  overflow-wrap: break-word;
+}
+
+.game-card__meta {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   10. Game detail
+   ========================================================================== */
+.game-detail__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 260px) 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.game-detail__cover {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.game-detail__cover--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.game-detail__title {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  overflow-wrap: break-word;
+}
+
+.game-detail__facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.game-detail__facts dt {
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.game-detail__facts dd {
+  margin: 0;
+}
+
+.game-detail__controls {
+  display: grid;
+  gap: 1rem;
+  max-width: 320px;
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   11. Responsive
+   ========================================================================== */
+@media (max-width: 640px) {
+  :root {
+    --gutter: 1rem;
+  }
+
+  .site-nav {
+    margin-right: 0;
+  }
+
+  .game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .game-detail__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .game-detail__cover {
+    max-width: 260px;
+  }
+}

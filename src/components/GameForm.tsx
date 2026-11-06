@@ -18,8 +18,8 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
+        <form className="form" onSubmit={handleSubmit}>
+            <label className="form__field">
                 Title
                 <input
                     value={title}
@@ -27,7 +27,7 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                     required
                 />
             </label>
-            <label>
+            <label className="form__field">
                 Platform
                 <input
                     value={platform}
@@ -35,7 +35,7 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                     required
                 />
             </label>
-            <label>
+            <label className="form__field">
                 Status
                 <select
                     value={status}
@@ -48,7 +48,7 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                     ))}
                 </select>
             </label>
-            <button type="submit" disabled={submitting}>
+            <button type="submit" className="button" disabled={submitting}>
                 {submitting ? 'Saving...' : 'Add game'}
             </button>
         </form>

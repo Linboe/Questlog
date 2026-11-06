@@ -8,13 +8,14 @@ interface StatusfilterProps {
 
 export default function Statusfilter({ value, onChange }: StatusfilterProps) {
     return (
-        <div>
+        <div className="status-filter">
             {FILTER_OPTIONS.map((option) => (
                 <button
                     key={option.value}
+                    type="button"
+                    className="status-filter__button"
                     onClick={() => onChange(option.value)}
                     aria-pressed={value === option.value}
-                    className={value === option.value ? 'active' : ''}
                 >
                     {option.label}
                 </button>

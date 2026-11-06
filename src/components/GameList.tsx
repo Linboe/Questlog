@@ -6,10 +6,11 @@ interface GameListProps {
 }
 
 export default function GameList({ games }: GameListProps) {
-    if (games.length === 0) return <p>No games found.</p>;
+    if (games.length === 0)
+        return <p className="empty-state">No games found.</p>;
 
     return (
-        <ul>
+        <ul className="game-grid">
             {games.map((game) => (
                 <GameCard key={game.id} game={game} />
             ))}

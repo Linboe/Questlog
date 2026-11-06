@@ -41,7 +41,7 @@ export default function GamesPage() {
 
     return (
         <>
-            <h2>My games</h2>
+            <h2 className="page-title">My games</h2>
             <Statusfilter value={filter} onChange={handleFilterChange} />
             {loading && <Loading message="Loading games..." />}
             {error && <ErrorMessage message={error} />}

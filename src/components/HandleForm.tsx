@@ -26,15 +26,17 @@ export default function HandleForm({ handle, onChange }: HandleFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
+        <form className="handle-form" onSubmit={handleSubmit}>
+            <label className="handle-form__field">
                 Handle
                 <input
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 />
             </label>
-            <button type="submit">Switch</button>
+            <button type="submit" className="button">
+                Switch
+            </button>
             {error && <ErrorMessage message={error} />}
         </form>
     );

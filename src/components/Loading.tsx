@@ -3,5 +3,9 @@ interface LoadingProps {
 }
 
 export default function Loading({ message }: LoadingProps) {
-    return <p role="status">{message}</p>;
+    return (
+        <p className="message message--loading" role="status">
+            {message}
+        </p>
+    );
 }

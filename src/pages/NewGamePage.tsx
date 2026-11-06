@@ -24,7 +24,7 @@ export default function NewGamePage() {
 
     return (
         <>
-            <h2>Add game</h2>
+            <h2 className="page-title">Add game</h2>
             {error && <ErrorMessage message={error} />}
             <GameForm onSubmit={handleSubmit} submitting={submitting} />
         </>

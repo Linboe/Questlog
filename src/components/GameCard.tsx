@@ -8,15 +8,28 @@ interface GameCardProps {
 
 export default function GameCard({ game }: GameCardProps) {
     return (
-        <li>
-            <Link to={`/games/${game.id}`}>
-                {game.coverUrl && (
-                    <img src={game.coverUrl} alt={`Cover: ${game.title}`} />
+        <li className="game-card">
+            <Link to={`/games/${game.id}`} className="game-card__link">
+                {game.coverUrl ? (
+                    <img
+                        className="game-card__cover"
+                        src={game.coverUrl}
+                        alt={`Cover: ${game.title}`}
+                    />
+                ) : (
+                    <div className="game-card__cover game-card__cover--empty">
+                        No cover
+                    </div>
                 )}
-                <h3>{game.title}</h3>
-                <p>
-                    {game.platform} · {STATUS_LABELS[game.status]}
-                </p>
+                <div className="game-card__body">
+                    <h3 className="game-card__title">{game.title}</h3>
+                    <p className="game-card__meta">{game.platform}</p>
+                    <span
+                        className={`status-badge status-badge--${game.status}`}
+                    >
+                        {STATUS_LABELS[game.status]}
+                    </span>
+                </div>
             </Link>
         </li>
     );

@@ -69,55 +69,86 @@ export default function GameDetailPage() {
     if (!game) return null;
 
     return (
-        <article>
-            <Link to="/">← Back</Link>
-            <h2>{game.title}</h2>
-            {game.coverUrl && (
-                <img src={game.coverUrl} alt={`Cover: ${game.title}`} />
-            )}
-            <p>Platform: {game.platform}</p>
-            <p>Notes: {game.notes || '–'}</p>
+        <article className="game-detail">
+            <Link to="/" className="back-link">
+                ← Back
+            </Link>
 
-            <label>
-                Status
-                <select
-                    value={game.status}
-                    onChange={(e) =>
-                        handleUpdate({ status: e.target.value as GameStatus })
-                    }
-                >
-                    {STATUS_OPTIONS.map((s) => (
-                        <option key={s} value={s}>
-                            {STATUS_LABELS[s]}
-                        </option>
-                    ))}
-                </select>
-            </label>
+            <div className="game-detail__layout">
+                {game.coverUrl ? (
+                    <img
+                        className="game-detail__cover"
+                        src={game.coverUrl}
+                        alt={`Cover: ${game.title}`}
+                    />
+                ) : (
+                    <div className="game-detail__cover game-detail__cover--empty">
+                        No cover
+                    </div>
+                )}
 
-            <label>
-                Rating
-                <select
-                    value={game.rating ?? ''}
-                    onChange={(e) =>
-                        handleUpdate({
-                            rating:
-                                e.target.value === ''
-                                    ? null
-                                    : Number(e.target.value),
-                        })
-                    }
-                >
-                    <option value="">No rating</option>
-                    {[1, 2, 3, 4, 5].map((n) => (
-                        <option key={n} value={n}>
-                            {n}
-                        </option>
-                    ))}
-                </select>
-            </label>
+                <div className="game-detail__info">
+                    <h2 className="game-detail__title">{game.title}</h2>
 
-            {actionError && <ErrorMessage message={actionError} />}
-            <button onClick={handleDelete}>Delete game</button>
+                    <dl className="game-detail__facts">
+                        <dt>Platform</dt>
+                        <dd>{game.platform}</dd>
+                        <dt>Notes</dt>
+                        <dd>{game.notes || '–'}</dd>
+                    </dl>
+
+                    <div className="game-detail__controls">
+                        <label className="form__field">
+                            Status
+                            <select
+                                value={game.status}
+                                onChange={(e) =>
+                                    handleUpdate({
+                                        status: e.target.value as GameStatus,
+                                    })
+                                }
+                            >
+                                {STATUS_OPTIONS.map((s) => (
+                                    <option key={s} value={s}>
+                                        {STATUS_LABELS[s]}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="form__field">
+                            Rating
+                            <select
+                                value={game.rating ?? ''}
+                                onChange={(e) =>
+                                    handleUpdate({
+                                        rating:
+                                            e.target.value === ''
+                                                ? null
+                                                : Number(e.target.value),
+                                    })
+                                }
+                            >
+                                <option value="">No rating</option>
+                                {[1, 2, 3, 4, 5].map((n) => (
+                                    <option key={n} value={n}>
+                                        {n}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                    </div>
+
+                    {actionError && <ErrorMessage message={actionError} />}
+                    <button
+                        type="button"
+                        className="button button--danger"
+                        onClick={handleDelete}
+                    >
+                        Delete game
+                    </button>
+                </div>
+            </div>
         </article>
     );
 }
