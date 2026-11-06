@@ -1,3 +1,2 @@
-const HANDLE = 'test-handle'; 
-
-export const API_BASE_URL = `https://questlog-api.vercel.app/api/${HANDLE}`;
+export const API_URL = 'https://questlog-api.vercel.app/api';
+export const DEFAULT_HANDLE = 'my-handle';

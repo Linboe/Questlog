@@ -1,4 +1,5 @@
-import { API_BASE_URL } from '../config';
+import { API_URL } from '../config';
+import { getHandle } from './handle';
 
 export class ApiError extends Error {
     status: number;
@@ -13,7 +14,7 @@ export async function request<T>(
     path: string,
     init: RequestInit = {},
 ): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(`${API_URL}/${getHandle()}${path}`, {
         ...init,
         headers: init.body ? { 'Content-Type': 'application/json' } : undefined,
     });
