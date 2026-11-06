@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import type { NewGame } from '../types';
+import type { GameFormValues, NewGame } from '../types';
 import { createGame } from '../utils/games';
 import GameForm from '../components/GameForm';
 import ErrorMessage from '../components/ErrorMessage';
@@ -10,7 +10,15 @@ export default function NewGamePage() {
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    async function handleSubmit(game: NewGame) {
+    async function handleSubmit(values: GameFormValues) {
+        const { coverUrl, notes, ...required } = values;
+        // optional fields are only sent when filled in
+        const game: NewGame = {
+            ...required,
+            ...(coverUrl ? { coverUrl } : {}),
+            ...(notes ? { notes } : {}),
+        };
+
         setSubmitting(true);
         setError(null);
         try {
