@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import type { Game } from '../types';
 import { STATUS_LABELS } from '../utils/status';
 

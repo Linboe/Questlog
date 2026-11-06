@@ -1,23 +1,19 @@
-import { useEffect, useState } from 'react';
-import { getGames } from './utils/games';
-import type { Game } from './types';
+import { Route, Routes } from 'react-router';
+import RootLayout from './pages/RootLayout';
+import GamesPage from './pages/GamesPage';
+import GameDetailPage from './pages/GameDetailPage';
+import NewGamePage from './pages/NewGamePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
-    const [games, setGames] = useState<Game[]>([]);
-
-    useEffect(() => {
-        getGames('all')
-            .then((data) => {
-                console.log('Hämtade spel:', data);
-                setGames(data);
-            })
-            .catch(console.error);
-    }, []);
-
     return (
-        <div>
-            <h1>Questlog</h1>
-            <p>Antal spel hämtade: {games.length}</p>
-        </div>
+        <Routes>
+            <Route element={<RootLayout />}>
+                <Route index element={<GamesPage />} />
+                <Route path="games/new" element={<NewGamePage />} />
+                <Route path="games/:id" element={<GameDetailPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Route>
+        </Routes>
     );
 }

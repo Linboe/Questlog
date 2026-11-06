@@ -1,4 +1,13 @@
-import { getGames } from './utils/games';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router';
+import App from './App';
+import './index.css';
 
-getGames('all').then(console.log).catch(console.error);
-getGames('playing').then(console.log).catch(console.error);
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </StrictMode>,
+);
