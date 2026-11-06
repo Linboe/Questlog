@@ -11,6 +11,11 @@ export interface Game {
     notes: string;
 }
 
+export type GameFormValues = Pick<
+    Game,
+    'title' | 'platform' | 'status' | 'coverUrl' | 'notes'
+>;
+
 export type NewGame = Pick<Game, 'title' | 'platform' | 'status'> & {
     notes?: string;
     coverUrl?: string;
