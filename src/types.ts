@@ -11,5 +11,8 @@ export interface Game {
     notes: string;
 }
 
-export type NewGame = Pick<Game, 'title' | 'platform' | 'status'>;
+export type NewGame = Pick<Game, 'title' | 'platform' | 'status'> & {
+    notes?: string;
+    coverUrl?: string;
+};
 export type GameUpdate = Partial<Omit<Game, 'id'>>;
