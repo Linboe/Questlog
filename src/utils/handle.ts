@@ -2,7 +2,6 @@ import { DEFAULT_HANDLE } from '../config';
 
 const STORAGE_KEY = 'questlog-handle';
 
-// From the API docs: 2-40 characters, only a-z, 0-9 and "-"
 export const HANDLE_PATTERN = /^[a-z0-9-]{2,40}$/;
 
 function readStoredHandle(): string {

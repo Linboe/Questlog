@@ -28,7 +28,7 @@ export default function HandleForm({ handle, onChange }: HandleFormProps) {
     return (
         <form className="handle-form" onSubmit={handleSubmit}>
             <label className="handle-form__field">
-                Handle
+                Username
                 <input
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
