@@ -11,10 +11,21 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
     const [title, setTitle] = useState('');
     const [platform, setPlatform] = useState('');
     const [status, setStatus] = useState<GameStatus>('want');
+    const [coverUrl, setCoverUrl] = useState('');
+    const [notes, setNotes] = useState('');
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
-        onSubmit({ title: title.trim(), platform: platform.trim(), status });
+        const trimmedCoverUrl = coverUrl.trim();
+        const trimmedNotes = notes.trim();
+        onSubmit({
+            title: title.trim(),
+            platform: platform.trim(),
+            status,
+            // optional fields: only sent when filled in
+            ...(trimmedCoverUrl ? { coverUrl: trimmedCoverUrl } : {}),
+            ...(trimmedNotes ? { notes: trimmedNotes } : {}),
+        });
     }
 
     return (
@@ -32,6 +43,7 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                 <input
                     value={platform}
                     onChange={(e) => setPlatform(e.target.value)}
+                    placeholder="e.g. PC, Switch, PlayStation 5"
                     required
                 />
             </label>
@@ -47,6 +59,23 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                         </option>
                     ))}
                 </select>
+            </label>
+            <label className="form__field">
+                Cover image URL (optional)
+                <input
+                    type="url"
+                    value={coverUrl}
+                    onChange={(e) => setCoverUrl(e.target.value)}
+                    placeholder="https://..."
+                />
+            </label>
+            <label className="form__field">
+                Notes (optional)
+                <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    rows={4}
+                />
             </label>
             <button type="submit" className="button" disabled={submitting}>
                 {submitting ? 'Saving...' : 'Add game'}
