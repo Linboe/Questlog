@@ -1,30 +1,38 @@
 import { useState, type FormEvent } from 'react';
-import type { GameStatus, NewGame } from '../types';
+import type { GameFormValues, GameStatus } from '../types';
 import { STATUS_LABELS, STATUS_OPTIONS } from '../utils/status';
 
 interface GameFormProps {
-    onSubmit: (game: NewGame) => void;
+    onSubmit: (values: GameFormValues) => void;
     submitting: boolean;
+    submitLabel?: string;
+    initialValues?: GameFormValues;
+    onCancel?: () => void;
 }
 
-export default function GameForm({ onSubmit, submitting }: GameFormProps) {
-    const [title, setTitle] = useState('');
-    const [platform, setPlatform] = useState('');
-    const [status, setStatus] = useState<GameStatus>('want');
-    const [coverUrl, setCoverUrl] = useState('');
-    const [notes, setNotes] = useState('');
+export default function GameForm({
+    onSubmit,
+    submitting,
+    submitLabel = 'Add game',
+    initialValues,
+    onCancel,
+}: GameFormProps) {
+    const [title, setTitle] = useState(initialValues?.title ?? '');
+    const [platform, setPlatform] = useState(initialValues?.platform ?? '');
+    const [status, setStatus] = useState<GameStatus>(
+        initialValues?.status ?? 'want',
+    );
+    const [coverUrl, setCoverUrl] = useState(initialValues?.coverUrl ?? '');
+    const [notes, setNotes] = useState(initialValues?.notes ?? '');
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
-        const trimmedCoverUrl = coverUrl.trim();
-        const trimmedNotes = notes.trim();
         onSubmit({
             title: title.trim(),
             platform: platform.trim(),
             status,
-            // optional fields: only sent when filled in
-            ...(trimmedCoverUrl ? { coverUrl: trimmedCoverUrl } : {}),
-            ...(trimmedNotes ? { notes: trimmedNotes } : {}),
+            coverUrl: coverUrl.trim(),
+            notes: notes.trim(),
         });
     }
 
@@ -77,9 +85,21 @@ export default function GameForm({ onSubmit, submitting }: GameFormProps) {
                     rows={4}
                 />
             </label>
-            <button type="submit" className="button" disabled={submitting}>
-                {submitting ? 'Saving...' : 'Add game'}
-            </button>
+            <div className="form__actions">
+                <button type="submit" className="button" disabled={submitting}>
+                    {submitting ? 'Saving...' : submitLabel}
+                </button>
+                {onCancel && (
+                    <button
+                        type="button"
+                        className="button button--secondary"
+                        onClick={onCancel}
+                        disabled={submitting}
+                    >
+                        Cancel
+                    </button>
+                )}
+            </div>
         </form>
     );
 }
