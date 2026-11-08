@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import type { Game, GameFormValues, GameStatus, GameUpdate } from '../types';
-import { ApiError } from '../utils/client';
-import { deleteGame, getGame, updateGame } from '../utils/games';
+import type { GameFormValues, GameStatus, GameUpdate } from '../types';
+import { useGame, useSaveGame } from '../hooks/useGames';
 import { STATUS_LABELS, STATUS_OPTIONS } from '../utils/status';
 import GameForm from '../components/GameForm';
 import Loading from '../components/Loading';
@@ -13,82 +12,45 @@ export default function GameDetailPage() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
-    const [game, setGame] = useState<Game | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
-    const [actionError, setActionError] = useState<string | null>(null);
-    const [editing, setEditing] = useState(false);
-    const [saving, setSaving] = useState(false);
-
-    useEffect(() => {
-        if (!id) return;
-        let ignore = false;
-
-        getGame(id)
-            .then((data) => {
-                if (!ignore) setGame(data);
-            })
-            .catch((e: unknown) => {
-                if (!ignore)
-                    setError(
-                        e instanceof Error ? e : new Error('Unknown error.'),
-                    );
-            })
-            .finally(() => {
-                if (!ignore) setLoading(false);
-            });
-
-        return () => {
-            ignore = true;
-        };
-    }, [id]);
+    const { game, setGame, message, isLoading, notFound } = useGame(id);
+    const {
+        isSaving,
+        message: saveMessage,
+        editGame,
+        removeGame,
+        clearMessage,
+    } = useSaveGame();
+    const [isEditing, setIsEditing] = useState(false);
 
     async function handleUpdate(changes: GameUpdate) {
         if (!id) return;
-        setActionError(null);
-        try {
-            const updated = await updateGame(id, changes);
-            setGame(updated);
-        } catch (e) {
-            setActionError(e instanceof Error ? e.message : 'Unknown error.');
-        }
+        const updated = await editGame(id, changes);
+        if (updated) setGame(updated);
     }
 
     async function handleSave(values: GameFormValues) {
         if (!id) return;
-        setSaving(true);
-        setActionError(null);
-        try {
-            const updated = await updateGame(id, values);
+        const updated = await editGame(id, values);
+        if (updated) {
             setGame(updated);
-            setEditing(false);
-        } catch (e) {
-            setActionError(e instanceof Error ? e.message : 'Unknown error.');
-        } finally {
-            setSaving(false);
+            setIsEditing(false);
         }
     }
 
     function handleCancelEdit() {
-        setActionError(null);
-        setEditing(false);
+        clearMessage();
+        setIsEditing(false);
     }
 
     async function handleDelete() {
         if (!id || !window.confirm('Delete this game?')) return;
-        setActionError(null);
-        try {
-            await deleteGame(id);
-            navigate('/');
-        } catch (e) {
-            setActionError(e instanceof Error ? e.message : 'Unknown error.');
-        }
+        const deleted = await removeGame(id);
+        if (deleted) navigate('/');
     }
 
-    if (loading) return <Loading message="Loading game..." />;
-    if (error instanceof ApiError && error.status === 404)
-        return <NotFoundPage />;
-    if (error) return <ErrorMessage message={error.message} />;
+    if (isLoading) return <Loading message="Loading game..." />;
+    if (notFound) return <NotFoundPage />;
+    if (message) return <ErrorMessage message={message} />;
     if (!game) return null;
 
     return (
@@ -111,11 +73,11 @@ export default function GameDetailPage() {
                 )}
 
                 <div className="game-detail__info">
-                    {editing ? (
+                    {isEditing ? (
                         <>
                             <h2 className="game-detail__title">Edit game</h2>
-                            {actionError && (
-                                <ErrorMessage message={actionError} />
+                            {saveMessage && (
+                                <ErrorMessage message={saveMessage} />
                             )}
                             <GameForm
                                 initialValues={{
@@ -126,7 +88,7 @@ export default function GameDetailPage() {
                                     notes: game.notes,
                                 }}
                                 submitLabel="Save changes"
-                                submitting={saving}
+                                submitting={isSaving}
                                 onSubmit={handleSave}
                                 onCancel={handleCancelEdit}
                             />
@@ -187,14 +149,14 @@ export default function GameDetailPage() {
                                 </label>
                             </div>
 
-                            {actionError && (
-                                <ErrorMessage message={actionError} />
+                            {saveMessage && (
+                                <ErrorMessage message={saveMessage} />
                             )}
                             <div className="game-detail__actions">
                                 <button
                                     type="button"
                                     className="button button--secondary"
-                                    onClick={() => setEditing(true)}
+                                    onClick={() => setIsEditing(true)}
                                 >
                                     Edit game
                                 </button>

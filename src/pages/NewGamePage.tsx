@@ -1,40 +1,30 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import type { GameFormValues, NewGame } from '../types';
-import { createGame } from '../utils/games';
+import { useSaveGame } from '../hooks/useGames';
 import GameForm from '../components/GameForm';
 import ErrorMessage from '../components/ErrorMessage';
 
 export default function NewGamePage() {
     const navigate = useNavigate();
-    const [submitting, setSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const { isSaving, message, addGame } = useSaveGame();
 
     async function handleSubmit(values: GameFormValues) {
         const { coverUrl, notes, ...required } = values;
-        // optional fields are only sent when filled in
         const game: NewGame = {
             ...required,
             ...(coverUrl ? { coverUrl } : {}),
             ...(notes ? { notes } : {}),
         };
 
-        setSubmitting(true);
-        setError(null);
-        try {
-            const created = await createGame(game);
-            navigate(`/games/${created.id}`);
-        } catch (e) {
-            setError(e instanceof Error ? e.message : 'Unknown error.');
-            setSubmitting(false);
-        }
+        const created = await addGame(game);
+        if (created) navigate(`/games/${created.id}`);
     }
 
     return (
         <>
             <h2 className="page-title">Add game</h2>
-            {error && <ErrorMessage message={error} />}
-            <GameForm onSubmit={handleSubmit} submitting={submitting} />
+            {message && <ErrorMessage message={message} />}
+            <GameForm onSubmit={handleSubmit} submitting={isSaving} />
         </>
     );
 }
