@@ -14,10 +14,20 @@ export async function request<T>(
     path: string,
     init: RequestInit = {},
 ): Promise<T> {
-    const response = await fetch(`${API_URL}/${getHandle()}${path}`, {
-        ...init,
-        headers: init.body ? { 'Content-Type': 'application/json' } : undefined,
-    });
+    let response: Response;
+    try {
+        response = await fetch(`${API_URL}/${getHandle()}${path}`, {
+            ...init,
+            headers: init.body
+                ? { 'Content-Type': 'application/json' }
+                : undefined,
+        });
+    } catch {
+        // fetch only rejects when the request never reached the server (offline, blocked, CORS)
+        throw new Error(
+            'Could not reach the server. Check your connection and try again.',
+        );
+    }
 
     if (!response.ok) {
         let message = `Something went wrong (status ${response.status}).`;

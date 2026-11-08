@@ -13,3 +13,6 @@ export const FILTER_OPTIONS: { value: StatusFilter; label: string }[] = [
     { value: 'all', label: 'All' },
     ...STATUS_OPTIONS.map((value) => ({ value, label: STATUS_LABELS[value] })),
 ];
+
+export const isStatusFilter = (value: unknown): value is StatusFilter =>
+    FILTER_OPTIONS.some((option) => option.value === value);

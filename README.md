@@ -58,6 +58,7 @@ npm run dev
 Open your browser and navigate to http://localhost:5173 (the default Vite port). The terminal prints the exact address if the port is taken.
 
 ### Choosing a handle
+* **My userhandle:** `test` and `test2`
 
 The API has no login. Every user picks a handle, and the games are saved under it. Nobody else's games show up there.
 
@@ -88,6 +89,7 @@ Handles POST, PATCH and DELETE through `addGame`, `editGame` and `removeGame`. R
 Works like `useState` but also saves the value in `localStorage`. It reads the stored value once on mount (lazy initialization) and writes it in an effect whenever the value changes. It is used for the status filter (key `questlog-filter`), so the selected filter is still there after a reload.
 
 ## Reflection
+* **Aiming for:** VG
 
 This project was built with the help of Claude. I wanted to use it as extensively as possible in order to understand the tool and to see what it is like to rely on it, so the project is partly an exploration of AI-assisted development.
 

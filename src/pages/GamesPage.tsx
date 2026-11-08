@@ -1,16 +1,19 @@
 import type { StatusFilter } from '../types';
 import { useGames } from '../hooks/useGames';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { isStatusFilter } from '../utils/status';
 import Statusfilter from '../components/Statusfilter';
 import GameList from '../components/GameList';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 
 export default function GamesPage() {
-    const [filter, setFilter] = useLocalStorage<StatusFilter>(
+    const [storedFilter, setFilter] = useLocalStorage<StatusFilter>(
         'questlog-filter',
         'all',
     );
+    // A hand-edited or outdated value in localStorage must never be sent to the API
+    const filter = isStatusFilter(storedFilter) ? storedFilter : 'all';
     const { games, message, isLoading } = useGames(filter);
 
     return (

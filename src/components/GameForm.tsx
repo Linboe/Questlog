@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import type { GameFormValues, GameStatus } from '../types';
-import { STATUS_LABELS, STATUS_OPTIONS } from '../utils/status';
+import StatusSelect from './StatusSelect';
 
 interface GameFormProps {
     onSubmit: (values: GameFormValues) => void;
@@ -55,19 +55,7 @@ export default function GameForm({
                     required
                 />
             </label>
-            <label className="form__field">
-                Status
-                <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value as GameStatus)}
-                >
-                    {STATUS_OPTIONS.map((s) => (
-                        <option key={s} value={s}>
-                            {STATUS_LABELS[s]}
-                        </option>
-                    ))}
-                </select>
-            </label>
+            <StatusSelect value={status} onChange={setStatus} />
             <label className="form__field">
                 Cover image URL (optional)
                 <input
