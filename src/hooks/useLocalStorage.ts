@@ -18,7 +18,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
         try {
             localStorage.setItem(key, JSON.stringify(value));
         } catch {
-           
+            // Storage unavailable (e.g. private mode): the value still works until reload
         }
     }, [key, value]); 
 
