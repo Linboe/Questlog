@@ -58,7 +58,7 @@ npm run dev
 Open your browser and navigate to http://localhost:5173 (the default Vite port). The terminal prints the exact address if the port is taken.
 
 ### Choosing a handle
-* **My userhandle:** `test` and `test2`
+* **My userhandle:** `test` 
 
 The API has no login. Every user picks a handle, and the games are saved under it. Nobody else's games show up there.
 
