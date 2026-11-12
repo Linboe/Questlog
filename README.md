@@ -1,7 +1,7 @@
 # Questlog
 ## Live Link
 
-👉 [Link to Live Portfolio](https://.vercel.app/)
+👉 [Link to Live Portfolio](https://questlog-tan.vercel.app/)
 
 ## Project Description
 A game backlog app built with React, TypeScript and React Router. Games are stored in the Questlog API under a handle chosen by the user.
